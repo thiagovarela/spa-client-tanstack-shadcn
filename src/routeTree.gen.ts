@@ -10,181 +10,181 @@
 
 // Import Routes
 
-import { Route as rootRoute } from './routes/__root'
-import { Route as AppImport } from './routes/app'
-import { Route as SiteImport } from './routes/_site'
-import { Route as AppIndexImport } from './routes/app/index'
-import { Route as SiteIndexImport } from './routes/_site/index'
-import { Route as AppChatImport } from './routes/app/chat'
-import { Route as SiteAboutImport } from './routes/_site/about'
+import { Route as rootRoute } from "./routes/__root";
+import { Route as AppImport } from "./routes/app";
+import { Route as SiteImport } from "./routes/_site";
+import { Route as AppIndexImport } from "./routes/app/index";
+import { Route as SiteIndexImport } from "./routes/_site/index";
+import { Route as AppChatImport } from "./routes/app/chat";
+import { Route as SiteAboutImport } from "./routes/_site/about";
 
 // Create/Update Routes
 
 const AppRoute = AppImport.update({
-  id: '/app',
-  path: '/app',
-  getParentRoute: () => rootRoute,
-} as any)
+	id: "/app",
+	path: "/app",
+	getParentRoute: () => rootRoute,
+} as any);
 
 const SiteRoute = SiteImport.update({
-  id: '/_site',
-  getParentRoute: () => rootRoute,
-} as any)
+	id: "/_site",
+	getParentRoute: () => rootRoute,
+} as any);
 
 const AppIndexRoute = AppIndexImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AppRoute,
-} as any)
+	id: "/",
+	path: "/",
+	getParentRoute: () => AppRoute,
+} as any);
 
 const SiteIndexRoute = SiteIndexImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => SiteRoute,
-} as any)
+	id: "/",
+	path: "/",
+	getParentRoute: () => SiteRoute,
+} as any);
 
 const AppChatRoute = AppChatImport.update({
-  id: '/chat',
-  path: '/chat',
-  getParentRoute: () => AppRoute,
-} as any)
+	id: "/chat",
+	path: "/chat",
+	getParentRoute: () => AppRoute,
+} as any);
 
 const SiteAboutRoute = SiteAboutImport.update({
-  id: '/about',
-  path: '/about',
-  getParentRoute: () => SiteRoute,
-} as any)
+	id: "/about",
+	path: "/about",
+	getParentRoute: () => SiteRoute,
+} as any);
 
 // Populate the FileRoutesByPath interface
 
-declare module '@tanstack/react-router' {
-  interface FileRoutesByPath {
-    '/_site': {
-      id: '/_site'
-      path: ''
-      fullPath: ''
-      preLoaderRoute: typeof SiteImport
-      parentRoute: typeof rootRoute
-    }
-    '/app': {
-      id: '/app'
-      path: '/app'
-      fullPath: '/app'
-      preLoaderRoute: typeof AppImport
-      parentRoute: typeof rootRoute
-    }
-    '/_site/about': {
-      id: '/_site/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof SiteAboutImport
-      parentRoute: typeof SiteImport
-    }
-    '/app/chat': {
-      id: '/app/chat'
-      path: '/chat'
-      fullPath: '/app/chat'
-      preLoaderRoute: typeof AppChatImport
-      parentRoute: typeof AppImport
-    }
-    '/_site/': {
-      id: '/_site/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof SiteIndexImport
-      parentRoute: typeof SiteImport
-    }
-    '/app/': {
-      id: '/app/'
-      path: '/'
-      fullPath: '/app/'
-      preLoaderRoute: typeof AppIndexImport
-      parentRoute: typeof AppImport
-    }
-  }
+declare module "@tanstack/react-router" {
+	interface FileRoutesByPath {
+		"/_site": {
+			id: "/_site";
+			path: "";
+			fullPath: "";
+			preLoaderRoute: typeof SiteImport;
+			parentRoute: typeof rootRoute;
+		};
+		"/app": {
+			id: "/app";
+			path: "/app";
+			fullPath: "/app";
+			preLoaderRoute: typeof AppImport;
+			parentRoute: typeof rootRoute;
+		};
+		"/_site/about": {
+			id: "/_site/about";
+			path: "/about";
+			fullPath: "/about";
+			preLoaderRoute: typeof SiteAboutImport;
+			parentRoute: typeof SiteImport;
+		};
+		"/app/chat": {
+			id: "/app/chat";
+			path: "/chat";
+			fullPath: "/app/chat";
+			preLoaderRoute: typeof AppChatImport;
+			parentRoute: typeof AppImport;
+		};
+		"/_site/": {
+			id: "/_site/";
+			path: "/";
+			fullPath: "/";
+			preLoaderRoute: typeof SiteIndexImport;
+			parentRoute: typeof SiteImport;
+		};
+		"/app/": {
+			id: "/app/";
+			path: "/";
+			fullPath: "/app/";
+			preLoaderRoute: typeof AppIndexImport;
+			parentRoute: typeof AppImport;
+		};
+	}
 }
 
 // Create and export the route tree
 
 interface SiteRouteChildren {
-  SiteAboutRoute: typeof SiteAboutRoute
-  SiteIndexRoute: typeof SiteIndexRoute
+	SiteAboutRoute: typeof SiteAboutRoute;
+	SiteIndexRoute: typeof SiteIndexRoute;
 }
 
 const SiteRouteChildren: SiteRouteChildren = {
-  SiteAboutRoute: SiteAboutRoute,
-  SiteIndexRoute: SiteIndexRoute,
-}
+	SiteAboutRoute: SiteAboutRoute,
+	SiteIndexRoute: SiteIndexRoute,
+};
 
-const SiteRouteWithChildren = SiteRoute._addFileChildren(SiteRouteChildren)
+const SiteRouteWithChildren = SiteRoute._addFileChildren(SiteRouteChildren);
 
 interface AppRouteChildren {
-  AppChatRoute: typeof AppChatRoute
-  AppIndexRoute: typeof AppIndexRoute
+	AppChatRoute: typeof AppChatRoute;
+	AppIndexRoute: typeof AppIndexRoute;
 }
 
 const AppRouteChildren: AppRouteChildren = {
-  AppChatRoute: AppChatRoute,
-  AppIndexRoute: AppIndexRoute,
-}
+	AppChatRoute: AppChatRoute,
+	AppIndexRoute: AppIndexRoute,
+};
 
-const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren);
 
 export interface FileRoutesByFullPath {
-  '': typeof SiteRouteWithChildren
-  '/app': typeof AppRouteWithChildren
-  '/about': typeof SiteAboutRoute
-  '/app/chat': typeof AppChatRoute
-  '/': typeof SiteIndexRoute
-  '/app/': typeof AppIndexRoute
+	"": typeof SiteRouteWithChildren;
+	"/app": typeof AppRouteWithChildren;
+	"/about": typeof SiteAboutRoute;
+	"/app/chat": typeof AppChatRoute;
+	"/": typeof SiteIndexRoute;
+	"/app/": typeof AppIndexRoute;
 }
 
 export interface FileRoutesByTo {
-  '/about': typeof SiteAboutRoute
-  '/app/chat': typeof AppChatRoute
-  '/': typeof SiteIndexRoute
-  '/app': typeof AppIndexRoute
+	"/about": typeof SiteAboutRoute;
+	"/app/chat": typeof AppChatRoute;
+	"/": typeof SiteIndexRoute;
+	"/app": typeof AppIndexRoute;
 }
 
 export interface FileRoutesById {
-  __root__: typeof rootRoute
-  '/_site': typeof SiteRouteWithChildren
-  '/app': typeof AppRouteWithChildren
-  '/_site/about': typeof SiteAboutRoute
-  '/app/chat': typeof AppChatRoute
-  '/_site/': typeof SiteIndexRoute
-  '/app/': typeof AppIndexRoute
+	__root__: typeof rootRoute;
+	"/_site": typeof SiteRouteWithChildren;
+	"/app": typeof AppRouteWithChildren;
+	"/_site/about": typeof SiteAboutRoute;
+	"/app/chat": typeof AppChatRoute;
+	"/_site/": typeof SiteIndexRoute;
+	"/app/": typeof AppIndexRoute;
 }
 
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '' | '/app' | '/about' | '/app/chat' | '/' | '/app/'
-  fileRoutesByTo: FileRoutesByTo
-  to: '/about' | '/app/chat' | '/' | '/app'
-  id:
-    | '__root__'
-    | '/_site'
-    | '/app'
-    | '/_site/about'
-    | '/app/chat'
-    | '/_site/'
-    | '/app/'
-  fileRoutesById: FileRoutesById
+	fileRoutesByFullPath: FileRoutesByFullPath;
+	fullPaths: "" | "/app" | "/about" | "/app/chat" | "/" | "/app/";
+	fileRoutesByTo: FileRoutesByTo;
+	to: "/about" | "/app/chat" | "/" | "/app";
+	id:
+		| "__root__"
+		| "/_site"
+		| "/app"
+		| "/_site/about"
+		| "/app/chat"
+		| "/_site/"
+		| "/app/";
+	fileRoutesById: FileRoutesById;
 }
 
 export interface RootRouteChildren {
-  SiteRoute: typeof SiteRouteWithChildren
-  AppRoute: typeof AppRouteWithChildren
+	SiteRoute: typeof SiteRouteWithChildren;
+	AppRoute: typeof AppRouteWithChildren;
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  SiteRoute: SiteRouteWithChildren,
-  AppRoute: AppRouteWithChildren,
-}
+	SiteRoute: SiteRouteWithChildren,
+	AppRoute: AppRouteWithChildren,
+};
 
 export const routeTree = rootRoute
-  ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>()
+	._addFileChildren(rootRouteChildren)
+	._addFileTypes<FileRouteTypes>();
 
 /* ROUTE_MANIFEST_START
 {
